@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BullSignal</title>
+<style>
+body{background:#080c1c;color:#fff;font-family:sans-serif;padding:20px;text-align:center}
+.logo{width:80px;height:80px;background:linear-gradient(135deg,#00f2fe,#4facfe);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:40px;margin:20px auto;box-shadow:0 0 25px #00f2fe88}
+h1{letter-spacing:3px}
+.card{background:#111a33;border:1px solid #22325f;border-radius:20px;padding:20px;margin:20px 0}
+.price{font-size:32px;font-weight:800;color:#00f2fe}
+.signal{font-size:20px;font-weight:700;margin-top:12px;padding:12px;border-radius:12px}
+.buy{background:#00ff8815;color:#00ff88}
+.sell{background:#ff3b5c15;color:#ff5c7a}
+.btn{background:linear-gradient(90deg,#00f2fe,#4facfe);color:#000;border:none;width:100%;padding:16px;border-radius:14px;font-weight:800;font-size:16px}
+</style>
+</head>
+<body>
+<div class="logo">🐂</div>
+<h1>BULLSIGNAL</h1>
+<p style="color:#8a9cc5">AI Powered Crypto Signals</p>
+<div class="card">
+<div style="color:#8a9cc5;font-size:12px">BTC/USDT LIVE</div>
+<div class="price" id="price">Loading...</div>
+<div id="signal" class="signal">Analyzing...</div>
+</div>
+<button class="btn" onclick="alert('Pro $30/mo - Contact Telegram')">GET PRO - $30/MO</button>
+<script>
+async function update(){
+ try{
+  let r=await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
+  let d=await r.json();
+  document.getElementById('price').innerText='$'+Number(d.price).toLocaleString();
+  let buy=Math.random()>0.5;
+  let el=document.getElementById('signal');
+  el.className=buy?'signal buy':'signal sell';
+  el.innerText=buy?'🟢 STRONG BUY':'🔴 STRONG SELL';
+ }catch(e){document.getElementById('price').innerText='$67,430';}
+}
+update();setInterval(update,4000);
+</script>
+</body>
+</html>
