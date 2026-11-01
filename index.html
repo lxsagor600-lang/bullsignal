@@ -13,32 +13,26 @@ h1{letter-spacing:3px}
 .signal{font-size:20px;font-weight:700;margin-top:12px;padding:12px;border-radius:12px}
 .buy{background:#00ff8815;color:#00ff88}
 .sell{background:#ff3b5c15;color:#ff5c7a}
-.btn{background:linear-gradient(90deg,#00f2fe,#4facfe);color:#000;border:none;width:100%;padding:16px;border-radius:14px;font-weight:800;font-size:16px}
+.timer{font-size:13px;margin-top:8px;color:#aaa}
+.up{color:#00ff88} .down{color:#ff5c7a}
+.btn{background:linear-gradient(90deg,#00f2fe,#4facfe);color:#000;border:none;width:100%;padding:16px;border-radius:14px;font-weight:800;margin-top:15px}
 </style>
 </head>
 <body>
-<div class="logo">🐂</div>
+<div class="logo">₿</div>
 <h1>BULLSIGNAL</h1>
-<p style="color:#8a9cc5">AI Powered Crypto Signals</p>
 <div class="card">
-<div style="color:#8a9cc5;font-size:12px">BTC/USDT LIVE</div>
-<div class="price" id="price">Loading...</div>
-<div id="signal" class="signal">Analyzing...</div>
+<div id="price" class="price">Loading...</div>
+<div id="priceInfo" class="timer"></div>
+<div id="signal" class="signal">Checking...</div>
+<div id="signalTimer" class="timer"></div>
 </div>
-<button class="btn" onclick="alert('Pro $30/mo - Contact Telegram')">GET PRO - $30/MO</button>
+<button class="btn">GET PRO - $30/MO</button>
 <script>
+let lastSignal=null,signalStart=Date.now(),lastPrice=0,priceStart=Date.now(),lastDir=null;
 async function update(){
  try{
   let r=await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
   let d=await r.json();
-  document.getElementById('price').innerText='$'+Number(d.price).toLocaleString();
-  let buy=Math.random()>0.5;
-  let el=document.getElementById('signal');
-  el.className=buy?'signal buy':'signal sell';
-  el.innerText=buy?'🟢 STRONG BUY':'🔴 STRONG SELL';
- }catch(e){document.getElementById('price').innerText='$67,430';}
-}
-update();setInterval(update,4000);
-</script>
-</body>
-</html>
+  let price=Number(d.price);
+  document.getElementById('price
